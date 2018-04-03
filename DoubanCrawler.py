@@ -60,51 +60,62 @@ def getMovies(category='', location=''):
 
 
 # 任务5: 构造电影信息数据表
-
+my_favorite=['动作','爱情','喜剧']
 # 抓取所有的电影种类
 
 
 # for element in content_div.find_all("span"):
 #     print(element.find("span").string)
 
-with open("movies.csv","w") as csvfile: 
-    writer = csv.writer(csvfile)
-    result=[]
-    for location in location_list:
-        result.extend(getMovies('动作',location))
-        result.extend(getMovies('爱情',location)) 
-        result.extend(getMovies('喜剧',location)) 
-    #写入多行用writerows
-    rows=[]
-    for item in result:
-    	rows.append([item.name,item.rate,item.location,item.category,item.info_link,item.cover_link])
-    print(result)
-    writer.writerows(rows)
+# with open("movies.csv","w") as csvfile: 
+#     writer = csv.writer(csvfile)
+#     result=[]
+#     for location in location_list:
+#         for favorite in my_favorite:
+#             result.extend(getMovies(favorite,location))
+#     #写入多行用writerows
+#     rows=[]
+#     for item in result:
+#     	rows.append([item.name,item.rate,item.location,item.category,item.info_link,item.cover_link])
+#     print(result)
+#     writer.writerows(rows)
 
 
 # 任务6: 统计电影数据
 
-# all_list=[]
-# all_obj={}
 
-# with open("movies.csv","r") as f: 
-#     f_csv = csv.reader(f)
-#     all_list= [row[2] for row in f_csv]
-#     for item in all_list:
-#         if(item in all_obj):
-#             all_obj[item]+=1
-#         else:
-#             all_obj[item]=1
-# print(all_obj);
+all_list=[]
+obj_list={}
 
-def dict2list(dic:dict):
-    ''' 将字典转化为列表 '''
-    keys = dic.keys()
-    vals = dic.values()
-    lst = [(key, val) for key, val in zip(keys, vals)]
-    return lst
+with open("movies.csv","r") as f: 
+    f_csv = csv.reader(f)
+    all_list= [(row[2],row[3]) for row in f_csv]
+    for item in all_list:
+        if item[1] in obj_list:
+            if item[0] in obj_list[item[1]]:
+                obj_list[item[1]][item[0]]+=1
+            else:
+                obj_list[item[1]][item[0]]=1
+        else:
+            obj_list[item[1]]={item[0]:1}
 
-sorted(dict2list(all_obj), key=lambda x:x[1], reverse=True) # 按照第1个元素降序排列
+
+
+def objectSort(obj_list):
+    f = open("./output.txt", 'w+')
+    for favorite in my_favorite:
+        obj=obj_list[favorite]
+        all_number= sum([obj[key] for key in obj.keys()])
+        obj_tuples= [(key,obj[key]) for key in obj.keys()]
+        sorted_tuples= sorted(obj_tuples, key=lambda obj: obj[1],reverse=True)[:3]
+        index=1
+        for item in sorted_tuples:
+            print('{}类：{}. {}:{:.2%}'.format(favorite,index,item[0],item[1]/all_number), file=f)
+            index+=1
+ 
+    
+objectSort(obj_list)
+
         
 
 
