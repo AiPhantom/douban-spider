@@ -61,10 +61,9 @@ def getMovies(category='', location=''):
 
 # 任务5: 构造电影信息数据表
 my_favorite=['动作','爱情','喜剧']
+
+
 # 抓取所有的电影种类
-
-
-
 # for element in content_div.find_all("span"):
 #     print(element.find("span").string)
 
