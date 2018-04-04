@@ -51,17 +51,17 @@ def getMovies(category='', location=''):
 # 任务5: 构造电影信息数据表
 my_favorite=['动作','爱情','喜剧']
 
-# with open("movies.csv","w") as csvfile: 
-#     writer = csv.writer(csvfile)
-#     result=[]
-#     for location in location_list:
-#         for favorite in my_favorite:
-#             result.extend(getMovies(favorite,location))
-#     #写入多行用writerows
-#     rows=[]
-#     for item in result:
-#     	rows.append([item.name,item.rate,item.location,item.category,item.info_link,item.cover_link])
-#     writer.writerows(rows)
+with open("movies.csv","w") as csvfile: 
+    writer = csv.writer(csvfile)
+    result=[]
+    for location in location_list:
+        for favorite in my_favorite:
+            result.extend(getMovies(favorite,location))
+    #写入多行用writerows
+    rows=[]
+    for item in result:
+    	rows.append([item.name,item.rate,item.location,item.category,item.info_link,item.cover_link])
+    writer.writerows(rows)
 
 
 # 任务6: 统计电影数据
